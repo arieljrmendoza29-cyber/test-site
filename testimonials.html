@@ -67,16 +67,17 @@
       </div>
     </section>
 
-    <!-- Interactive Expanding-Card Success Stories Section -->
+    <!-- Multi-Device Responsive Expanding-Card Success Stories Section -->
     <section class="sec sw-stories-section" aria-label="Client Success Stories">
       <style>
         .sw-stories-wrap {
-          max-width: 1280px;
+          width: 100%;
+          max-width: 1320px;
           margin: 0 auto;
         }
         .sw-stories-header {
           text-align: center;
-          margin-bottom: 44px;
+          margin-bottom: clamp(28px, 4.5vw, 44px);
         }
         .sw-stories-badge {
           display: inline-block;
@@ -94,136 +95,196 @@
           margin: 0;
           font-weight: 700;
         }
+
+        /* Mobile First (< 640px): Single clean vertical stack */
         .sw-stories-row {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          display: grid;
+          grid-template-columns: 1fr;
           gap: 16px;
+          width: 100%;
         }
-        @media (min-width: 1024px) {
+
+        /* Tablet (640px - 1023px): Balanced 2x2 grid */
+        @media (min-width: 640px) and (max-width: 1023px) {
           .sw-stories-row {
-            flex-direction: row;
-            justify-content: center;
-            align-items: stretch;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
           }
         }
+
+        /* Laptop & Desktop (>= 1024px): Fluid horizontal expanding accordion */
+        @media (min-width: 1024px) {
+          .sw-stories-row {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 16px;
+          }
+        }
+
         .sw-story-col {
           display: flex;
           flex-direction: column;
           gap: 10px;
           width: 100%;
-          max-width: 520px;
-          transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          min-width: 0;
+          outline: none;
         }
+
         @media (min-width: 1024px) {
           .sw-story-col {
-            width: 220px;
-            flex-shrink: 0;
+            flex: 1 1 0%;
+            transition: flex 0.55s cubic-bezier(0.22, 1, 0.36, 1);
           }
           .sw-story-col.is-active {
-            width: 520px;
+            flex: 2.65 1 0%;
           }
         }
+
         .sw-story-panel {
           position: relative;
           display: flex;
           flex-direction: column;
-          height: auto;
-          min-height: 400px;
           width: 100%;
+          height: 100%;
           overflow: hidden;
-          border-radius: 24px;
+          border-radius: 22px;
           padding: 12px;
-          background-color: rgba(255, 255, 255, 0.72);
-          border: 1px solid rgba(47, 105, 255, 0.14);
+          background-color: rgba(255, 255, 255, 0.76);
+          border: 1px solid rgba(47, 105, 255, 0.16);
           backdrop-filter: blur(12px);
           cursor: pointer;
-          transition: background-color 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+          transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.25s ease;
         }
-        @media (min-width: 768px) {
+
+        .sw-story-col:focus-visible .sw-story-panel {
+          outline: 2px solid #2f69ff;
+          outline-offset: 2px;
+        }
+
+        @media (min-width: 1024px) {
           .sw-story-panel {
             flex-direction: row;
-            height: 410px;
+            height: clamp(380px, 34vw, 420px);
           }
         }
+
         .sw-story-col.is-active .sw-story-panel {
           background-color: #0b1633;
-          border-color: rgba(47, 105, 255, 0.45);
-          box-shadow: 0 20px 44px -16px rgba(11, 22, 51, 0.45);
+          border-color: rgba(47, 105, 255, 0.5);
+          box-shadow: 0 20px 44px -16px rgba(11, 22, 51, 0.42);
         }
+
         .sw-story-img {
           position: relative;
-          height: 220px;
           width: 100%;
+          height: 200px;
           flex-shrink: 0;
           overflow: hidden;
-          border-radius: 16px;
+          border-radius: 15px;
         }
-        @media (min-width: 768px) {
+
+        @media (min-width: 640px) and (max-width: 1023px) {
           .sw-story-img {
-            height: 100%;
-            width: 196px;
+            height: 210px;
           }
         }
+
+        @media (min-width: 1024px) {
+          .sw-story-img {
+            height: 100%;
+            width: 100%;
+            transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+          }
+          .sw-story-col.is-active .sw-story-img {
+            width: clamp(165px, 16vw, 200px);
+          }
+        }
+
         .sw-story-img img {
-          height: 100%;
           width: 100%;
+          height: 100%;
           object-fit: cover;
+          object-position: center top;
           display: block;
         }
+
         .sw-story-icon {
           position: absolute;
-          bottom: 14px;
-          left: 14px;
+          bottom: 12px;
+          left: 12px;
           display: flex;
-          height: 40px;
-          width: 40px;
+          height: 38px;
+          width: 38px;
           align-items: center;
           justify-content: center;
           border-radius: 10px;
           background: #ffffff;
-          box-shadow: 0 4px 12px rgba(11, 22, 51, 0.15);
+          box-shadow: 0 4px 12px rgba(11, 22, 51, 0.16);
         }
+
+        /* Content visibility: Always readable on mobile/tablet; slides in on desktop active */
         .sw-story-content {
-          display: none;
+          display: flex;
           flex: 1;
           flex-direction: column;
           justify-content: space-between;
-          padding: 22px 24px;
-          color: #ffffff;
-          opacity: 0;
-          transform: translateX(30px);
-          transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+          padding: 18px 14px 10px;
+          color: #1b243b;
+          transition: color 0.35s ease;
         }
+
         .sw-story-col.is-active .sw-story-content {
-          display: flex;
-          opacity: 1;
-          transform: translateX(0);
-        }
-        .sw-story-quote {
-          margin: 0 0 20px;
-          font-size: 15px;
-          font-weight: 400;
-          line-height: 1.65;
-          color: rgba(255, 255, 255, 0.92);
-        }
-        .sw-story-author h4 {
-          margin: 0 0 4px;
-          font-size: 16px;
-          font-weight: 600;
           color: #ffffff;
         }
+
+        @media (min-width: 1024px) {
+          .sw-story-content {
+            display: none;
+            padding: 20px 22px;
+            opacity: 0;
+            transform: translateX(24px);
+            transition: opacity 0.4s ease 0.1s, transform 0.45s cubic-bezier(0.23, 1, 0.32, 1) 0.1s;
+          }
+          .sw-story-col.is-active .sw-story-content {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .sw-story-quote {
+          margin: 0 0 16px;
+          font-size: clamp(14px, 1.15vw, 15px);
+          font-weight: 400;
+          line-height: 1.6;
+          color: inherit;
+          opacity: 0.92;
+        }
+
+        .sw-story-author h4 {
+          margin: 0 0 3px;
+          font-size: 15px;
+          font-weight: 700;
+          color: inherit;
+        }
+
         .sw-story-author p {
           margin: 0;
           font-size: 13px;
-          font-weight: 500;
+          font-weight: 600;
+          color: #2f69ff;
+        }
+
+        .sw-story-col.is-active .sw-story-author p {
           color: #6ea8ff;
         }
+
         .sw-story-label {
           margin: 0;
           padding: 0 4px;
           text-align: center;
-          font-size: 14px;
+          font-size: 13.5px;
           font-weight: 600;
           color: #1b243b;
         }
@@ -237,10 +298,10 @@
 
         <div class="sw-stories-row rv" id="sw-stories-row">
           <!-- Card 1: Managed IT & Support -->
-          <div class="sw-story-col is-active" onmouseenter="activateSwStory(0)" onclick="activateSwStory(0)">
+          <div class="sw-story-col is-active" tabindex="0" role="button" aria-expanded="true" onmouseenter="activateSwStory(0)" onclick="activateSwStory(0)" onfocus="activateSwStory(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();activateSwStory(0);}">
             <div class="sw-story-panel">
               <div class="sw-story-img">
-                <img src="https://cdn.jiro.build/Halo/image/r%204.png" alt="Michael R." referrerPolicy="no-referrer">
+                <img src="https://cdn.jiro.build/Halo/image/r%204.png" alt="Michael R." loading="lazy" referrerPolicy="no-referrer">
                 <div class="sw-story-icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f69ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
                 </div>
@@ -256,11 +317,11 @@
             <h3 class="sw-story-label">Managed IT &amp; Support</h3>
           </div>
 
-          <!-- Card 2: Cloud & Workspace -->
-          <div class="sw-story-col" onmouseenter="activateSwStory(1)" onclick="activateSwStory(1)">
+          <!-- Card 2: Cloud Integration -->
+          <div class="sw-story-col" tabindex="0" role="button" aria-expanded="false" onmouseenter="activateSwStory(1)" onclick="activateSwStory(1)" onfocus="activateSwStory(1)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();activateSwStory(1);}">
             <div class="sw-story-panel">
               <div class="sw-story-img">
-                <img src="https://cdn.jiro.build/Halo/image/r%203.png" alt="Jessica M." referrerPolicy="no-referrer">
+                <img src="https://cdn.jiro.build/Halo/image/r%203.png" alt="Jessica M." loading="lazy" referrerPolicy="no-referrer">
                 <div class="sw-story-icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
                 </div>
@@ -276,11 +337,11 @@
             <h3 class="sw-story-label">Cloud Integration</h3>
           </div>
 
-          <!-- Card 3: Cybersecurity & Data Protection -->
-          <div class="sw-story-col" onmouseenter="activateSwStory(2)" onclick="activateSwStory(2)">
+          <!-- Card 3: Cybersecurity -->
+          <div class="sw-story-col" tabindex="0" role="button" aria-expanded="false" onmouseenter="activateSwStory(2)" onclick="activateSwStory(2)" onfocus="activateSwStory(2)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();activateSwStory(2);}">
             <div class="sw-story-panel">
               <div class="sw-story-img">
-                <img src="https://cdn.jiro.build/Halo/image/r%202.png" alt="Nicole B." referrerPolicy="no-referrer">
+                <img src="https://cdn.jiro.build/Halo/image/r%202.png" alt="Nicole B." loading="lazy" referrerPolicy="no-referrer">
                 <div class="sw-story-icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
                 </div>
@@ -296,11 +357,11 @@
             <h3 class="sw-story-label">Cybersecurity</h3>
           </div>
 
-          <!-- Card 4: Network & Infrastructure -->
-          <div class="sw-story-col" onmouseenter="activateSwStory(3)" onclick="activateSwStory(3)">
+          <!-- Card 4: Infrastructure & Setup -->
+          <div class="sw-story-col" tabindex="0" role="button" aria-expanded="false" onmouseenter="activateSwStory(3)" onclick="activateSwStory(3)" onfocus="activateSwStory(3)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();activateSwStory(3);}">
             <div class="sw-story-panel">
               <div class="sw-story-img">
-                <img src="https://cdn.jiro.build/Halo/image/r%201.png" alt="Daniel W." referrerPolicy="no-referrer">
+                <img src="https://cdn.jiro.build/Halo/image/r%201.png" alt="Daniel W." loading="lazy" referrerPolicy="no-referrer">
                 <div class="sw-story-icon" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b243b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
                 </div>
@@ -324,11 +385,9 @@
         function activateSwStory(activeIdx) {
           var cards = document.querySelectorAll('#sw-stories-row .sw-story-col');
           cards.forEach(function (card, idx) {
-            if (idx === activeIdx) {
-              card.classList.add('is-active');
-            } else {
-              card.classList.remove('is-active');
-            }
+            var isMatch = idx === activeIdx;
+            card.classList.toggle('is-active', isMatch);
+            card.setAttribute('aria-expanded', isMatch ? 'true' : 'false');
           });
         }
       </script>
