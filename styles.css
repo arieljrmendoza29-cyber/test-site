@@ -43,3 +43,10 @@ h1,.beat h2,.hero .lead{text-shadow:0 0 26px rgba(255,255,255,.85),0 0 8px rgba(
 @media(prefers-reduced-motion:reduce){.w>span{transform:none;transition:none}.tx{opacity:1;transform:none;filter:none;transition:none}}
 .map{display:block;width:100%;height:clamp(280px,45vw,440px);border:0;border-radius:14px}
 .w>span{transition-duration:.8s;transition-delay:calc(var(--i)*45ms)}.tx{transition-duration:.7s}
+
+/* testimonials */
+.tm{margin:0;display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-width:0;overflow-wrap:anywhere}
+.tm blockquote{margin:0;font-size:15px;line-height:1.65;color:var(--ink)}
+.tm figcaption{font-size:13px;color:var(--mut);border-top:1px solid rgba(14,42,197,.12);padding-top:12px}
+.tm figcaption b{color:var(--ink)}
+@media(max-width:480px){.tm{padding:20px}.grid{grid-template-columns:1fr}}
