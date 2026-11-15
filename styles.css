@@ -44,29 +44,40 @@ h1,.beat h2,.hero .lead{text-shadow:0 0 26px rgba(255,255,255,.85),0 0 8px rgba(
 .map{display:block;width:100%;height:clamp(280px,45vw,440px);border:0;border-radius:14px}
 .w>span{transition-duration:.8s;transition-delay:calc(var(--i)*45ms)}.tx{transition-duration:.7s}
 
-/* testimonials: expanding cards */
-.tcards{display:flex;gap:16px;align-items:flex-start;justify-content:center;max-width:1440px;margin:0 auto}
+/* testimonials: expanding cards
+   ===== EDIT THESE NUMBERS TO RESIZE THINGS ===== */
+.tcards{
+  --card-h:420px;        /* height of every card (desktop) */
+  --open-grow:3;         /* how much wider the open card is vs closed ones */
+  --open-img-w:170px;    /* photo width inside the OPEN card (desktop) */
+  --img-pos:50% 22%;     /* which part of the photo shows: left/right  up/down */
+  --mobile-img-h:200px;  /* photo height on phones and tablets */
+  --gap:16px;            /* space between cards */
+  display:flex;gap:var(--gap);align-items:flex-start;justify-content:center;max-width:1440px;margin:0 auto}
+/* ===== end of the numbers ===== */
 .tcard{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:12px;cursor:pointer;outline:none;transition:flex-grow .7s cubic-bezier(.16,1,.3,1)}
-.tcard.on{flex-grow:3}
+.tcard.on{flex-grow:var(--open-grow)}
 .tcard:focus-visible .tpanel{outline:3px solid var(--b);outline-offset:3px}
-.tpanel{height:420px;display:flex;padding:12px;border-radius:24px;overflow:hidden;background:#dfe6fb;transition:background-color .6s}
+.tpanel{height:var(--card-h);display:flex;padding:12px;border-radius:24px;overflow:hidden;background:#dfe6fb;transition:background-color .6s}
 .tcard.on .tpanel{background:#0a2a8a}
-.timg{position:relative;flex:0 0 100%;width:100%;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 30%,#fff,#a8c1ff 55%,#5b8cff);transition:flex-basis .7s cubic-bezier(.16,1,.3,1)}
-.tcard.on .timg{flex-basis:170px}
-.timg img{position:absolute;inset:0;margin:auto;width:70%;max-width:150px;height:auto;opacity:.95}
+.timg{position:relative;flex:0 0 100%;width:100%;border-radius:16px;overflow:hidden;background:#a8c1ff;transition:flex-basis .7s cubic-bezier(.16,1,.3,1)}
+.tcard.on .timg{flex-basis:var(--open-img-w)}
+.timg img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:var(--img-pos)}
 .tbadge{position:absolute;left:14px;bottom:14px;width:40px;height:40px;border-radius:10px;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(10,18,48,.15)}
 .tbadge svg{width:20px;height:20px}
 .tbody{flex:0 0 0;min-width:0;overflow:hidden;padding:0;opacity:0;transform:translateX(40px);transition:opacity .5s cubic-bezier(.23,1,.32,1),transform .5s cubic-bezier(.23,1,.32,1)}
 .tcard.on .tbody{flex:1 1 0;padding:12px 8px 12px 24px;opacity:1;transform:none;transition-delay:.15s}
 .tin{min-width:230px;height:100%;display:flex;flex-direction:column;color:#fff}
-.tq{font-size:15px;line-height:1.65;opacity:.92;margin-bottom:auto}
+.ts{display:flex;align-items:center;gap:2px;margin-bottom:12px;color:#fbbf24}.ts svg{width:15px;height:15px}.ts span{margin-left:8px;font-size:13px;font-weight:600;color:#fff}
+.tq{font-size:14.5px;line-height:1.65;opacity:.92;margin-bottom:auto}
 .tn{font-size:16px;font-weight:600;margin-top:20px}.tr{font-size:13px;color:#7fe3f2;margin-top:2px}
 .tlabel{text-align:center;font-size:14px;font-weight:500;color:var(--ink)}
 @media(max-width:1023px){
 .tcards{flex-direction:column;align-items:stretch;max-width:600px}
 .tcard,.tcard.on{flex:none;width:100%}
 .tpanel{height:auto;flex-direction:column}
-.timg,.tcard.on .timg{flex:none;width:100%;height:150px}
+.timg,.tcard.on .timg{flex:none;width:100%;height:var(--mobile-img-h)}
+.timg img{object-position:50% var(--pm,25%)}
 .tbody,.tcard.on .tbody{flex:none;display:grid;grid-template-rows:0fr;padding:0;opacity:0;transform:none;transition:grid-template-rows .5s,opacity .4s}
 .tcard.on .tbody{grid-template-rows:1fr;opacity:1}
 .tin{min-width:0;overflow:hidden;height:auto}
@@ -74,5 +85,3 @@ h1,.beat h2,.hero .lead{text-shadow:0 0 26px rgba(255,255,255,.85),0 0 8px rgba(
 .tq{margin-bottom:0}
 }
 @media(prefers-reduced-motion:reduce){.tcard,.tpanel,.timg,.tbody{transition:none}}
-.ts{display:flex;align-items:center;gap:2px;margin-bottom:12px;color:#fbbf24}.ts svg{width:15px;height:15px}.ts span{margin-left:8px;font-size:13px;font-weight:600;color:#fff}
-.tq{font-size:14.5px}
